@@ -7,7 +7,7 @@ import optparse
 import pathlib
 
 
-from . import views
+from . import views, models
 
 app = Flask(__name__)
 
@@ -22,7 +22,7 @@ def create_app():
         p.mkdir(parents=True, exist_ok=True)
 
     views.register_blueprint(app)
-    
+
     return app
 
 
