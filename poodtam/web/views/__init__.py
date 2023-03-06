@@ -2,11 +2,6 @@ import datetime
 
 from . import (
     dashboard,
-    build,
-    download,
-    projects,
-    kivy_guide,
-    install_guide,
 )
 
 
