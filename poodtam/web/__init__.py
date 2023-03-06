@@ -21,6 +21,8 @@ def create_app():
     if not p.exists():
         p.mkdir(parents=True, exist_ok=True)
 
+    views.register_blueprint(app)
+    
     return app
 
 

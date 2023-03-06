@@ -27,7 +27,7 @@ def get_subblueprints(views=[]):
 def register_blueprint(app):
     app.add_template_filter(add_date_url)
     blueprints = get_subblueprints(
-        [dashboard, build, download, projects, kivy_guide, install_guide]
+        [dashboard]
     )
 
     for blueprint in blueprints:
