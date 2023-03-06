@@ -1,2 +1,5 @@
 flask
+flask-mongoengine
+flask-wtf
 mongoengine
+werkzeug
