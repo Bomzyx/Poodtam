@@ -1,0 +1,52 @@
+ @import url(https://fonts.googleapis.com/css?family=Prompt);
+
+ * {
+   font-family: 'Prompt', 'Icons', 'brand-icons' !important;
+ }
+
+ .tooltip {
+   position: sticky;
+   background: #e0e1e2;
+   padding: 5px 12px;
+   margin: 5px;
+   font-size: 15px;
+   border-radius: 100%;
+   color: #686869;
+   cursor: help;
+   font-weight: bold;
+ }
+
+ .tooltip-2field {
+   margin-top: 32px;
+ }
+
+ .tooltip-1field {
+   margin-right: -7px;
+   margin-top: 8px;
+ }
+
+
+
+ .toc {
+   position: fixed;
+   top: 5em;
+   padding: 1em;
+   line-height: 2;
+
+   ul {
+     list-style: none;
+     padding: 0;
+     margin: 0;
+   }
+
+   ul ul {
+     padding-left: 2em;
+   }
+
+   li a {
+     display: inline-block;
+     color: #aaa;
+     text-decoration: none;
+     transition: all 0.3s cubic-bezier(0.230, 1.000, 0.320, 1.000);
+   }
+ }
