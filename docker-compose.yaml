@@ -2,7 +2,7 @@ version: '3'
 services:
   mongodb:
     image: mongo
-    container_name: psunote-mongodb
+    container_name: poodtam-mongodb
     volumes:
       # - ../deployment/mongodb/data/db:/data/db
       - /etc/localtime:/etc/localtime:ro
@@ -11,8 +11,8 @@ services:
     restart: always
   web:
     build: .
-    image: psunote-image
-    container_name: psunote-web
+    image: poodtam-image
+    container_name: poodtam-web
     volumes:
       - /etc/localtime:/etc/localtime:ro
     ports:
