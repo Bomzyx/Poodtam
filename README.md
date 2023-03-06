@@ -17,5 +17,5 @@
 
 -- FINISHING SETUP PROJECT --
 
-run project with .) > ./script/run-web
+run project with > ./script/run-web
 
