@@ -1,0 +1,30 @@
+version: '3'
+services:
+  mongodb:
+    image: mongo
+    container_name: psunote-mongodb
+    volumes:
+      # - ../deployment/mongodb/data/db:/data/db
+      - /etc/localtime:/etc/localtime:ro
+    networks:
+      - default
+    restart: always
+  web:
+    build: .
+    image: psunote-image
+    container_name: psunote-web
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 5000:5000
+    links:
+      - mongodb
+    depends_on:
+      - mongodb
+    networks:
+      - default
+    restart: always
+networks:
+  default:
+
+
