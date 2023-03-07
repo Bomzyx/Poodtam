@@ -8,7 +8,6 @@ flask-mongoengine
 flask-wtf
 flask_login
 flask_bcrypt 
-flask_sse # real-time flask
 pathlib
 pillow
 requests
