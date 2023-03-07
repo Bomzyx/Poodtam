@@ -1,6 +1,7 @@
 flask
 flask-mongoengine
 flask-wtf
+flask_bcrypt 
 mongoengine
 werkzeug
 pathlib
