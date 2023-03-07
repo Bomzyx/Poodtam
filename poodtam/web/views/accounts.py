@@ -64,3 +64,7 @@ def logout():
     session.clear()
 
     return redirect(url_for("dashboard.index"))
+
+@module.route("/accounts")
+def index():
+    return render_template("accounts/index.html")
