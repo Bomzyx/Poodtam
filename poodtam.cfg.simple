@@ -1,0 +1,2 @@
+MONGODB_DB = 'poodtamdb'
+SECRET_KEY = 'poodtam-secretkey'
