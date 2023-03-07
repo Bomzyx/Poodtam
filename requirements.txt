@@ -1,7 +1,13 @@
+markupsafe==2.0.1
+werkzeug==0.16.0
 flask
 flask-mongoengine
 flask-wtf
+flask_login
 flask_bcrypt 
 mongoengine
-werkzeug
 pathlib
+pillow
+markdown
+authlib
+requests
