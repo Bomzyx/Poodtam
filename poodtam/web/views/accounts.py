@@ -40,18 +40,27 @@ def register():
 
 @module.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard.index"))
+
     form = forms.accounts.LoginForm()
     if form.validate_on_submit():
         username = form.username.data
         password = form.password.data
         user = models.User.objects(username=username).first()
-        if user and authorized_oauth(form):
+        if user and oauth.handle_authorized_user(form):
             flash("Logged in successfully.", "success")
             return redirect(url_for("dashboard.index"))
         else:
             flash("Invalid username or password.", "danger")
+
     return render_template("accounts/login.html", form=form)
 
 
-def authorized_oauth(form):
-    return oauth.handle_authorized_user(form)
+@module.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    session.clear()
+
+    return redirect(url_for("dashboard.index"))
