@@ -1,7 +1,7 @@
 from flask_mongoengine import MongoEngine
 
 from .users import User
-from .blogs import Blog
+from .blogs import Blog, Comment
 
 db = MongoEngine()
 

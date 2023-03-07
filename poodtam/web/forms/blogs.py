@@ -23,3 +23,14 @@ BaseBlogForm = model_form(
 
 class BlogForm(BaseBlogForm):
     pass
+
+
+BaseCommentForm = model_form(
+    models.Comment,
+    FlaskForm,
+    exclude=["owner", "created_date", "last_updated_date", "body"],
+)
+
+
+class CommentForm(BaseCommentForm):
+    body = fields.TextAreaField(validators=[validators.InputRequired()])

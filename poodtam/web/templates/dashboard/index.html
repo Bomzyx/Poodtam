@@ -1,11 +1,12 @@
 {% extends "/base/default-page.html" %}
+{% import "/base/blog-renderer.html" as blog_renderer %}
 
 {% block content %}
 
 <div class="ui info message">This is dashboard of poomtam webboard.</div>
-<div class="ui very padded segment">
+<div class="ui segment">
     <h1 class="ui header">Poodtam Dashboard</h1>
-    <a class="ui blue button" href="{{ url_for('blogs.create_or_edit') }}">สร้าง</a>
+    <a class="ui psu-ocean-blue button" href="{{ url_for('blogs.create_or_edit') }}">สร้าง</a>
     {% for blog in blogs %}
     <div class="ui large fluid card">
       <div class="content">
@@ -22,7 +23,7 @@
       </div>
       <div class="content">
         {% if blog.owner == current_user %}
-          <a class="ui large right floated blue tertiary button" href="{{ url_for('blogs.create_or_edit', blog_id=blog.id) }}">
+          <a class="ui large right floated tertiary button" style="color: rgb(44, 73, 140) !important" href="{{ url_for('blogs.create_or_edit', blog_id=blog.id) }}">
             <i class="edit icon"></i> 
             แก้ไข
           </a>
@@ -31,17 +32,28 @@
         <div class="ui hidden divider"></div>
         {{ blog.get_body ()| safe }}
       </div>
+      <div class="right floated content">
+        <i style="font-size: 20px;" class="heart outline like icon"></i>
+        {{ blog.liked_by | count }} ชอบ
+        &ThickSpace;
+        <i style="font-size: 20px;" class="comment icon"></i>
+        {{ blog.comments | count }} ความคิดเห็น
+      </div>
+
       <div class="content">
-        <div class="ui input" style="width: 50vw">
-          <input type="text" placeholder="Add Comment...">
-        </div>
-        <i class="paper plane icon"></i>
-        <div class="right floated content">
-          <i class="heart outline like icon"></i>
-          17 ถูกใจ
-          &ThinSpace; <i class="comment icon"></i>
-          3 ความคิดเห็น
-        </div>
+        {{ blog_renderer.render_comment_target(comment_form, blog) }}
+      </div>
+
+      <div class="content">
+        <form class="ui form basic fitted segment" method="POST" action="{{ url_for('blogs.comment', blog_id=blog.id) }}">
+          {{ comment_form.csrf_token() }}
+          {{ comment_form.body(class_="ui fluid input", rows=1, placeholder="แสดงความคิดเห็น...") }}
+          <p></p>
+          <button type="submit" class="ui icon psu-ocean-blue {{blog.id}} button">
+            แสดงความคิดเห็น  
+            <i class="paper plane icon"></i>
+          </button>
+        </form>
       </div>
     </div>
     {% endfor %}

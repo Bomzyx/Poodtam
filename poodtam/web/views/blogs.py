@@ -9,6 +9,7 @@ import datetime
 
 module = Blueprint("blogs", __name__, url_prefix="/blogs")
 
+
 @module.route(
     "/create",
     methods=["GET", "POST"],
@@ -26,17 +27,53 @@ def create_or_edit(blog_id):
 
     if not form.validate_on_submit():
         return render_template("/blogs/create-or-edit.html", form=form, blog=blog)
-    
+
     if not blog_id:
         blog = models.Blog()
         blog.owner = current_user._get_current_object()
         blog.created_date = datetime.datetime.now()
-    
+
     blog.subject = form.subject.data
     blog.body = form.body.data
     blog.last_updated_date = datetime.datetime.now()
     blog.save()
 
-    return redirect(url_for('dashboard.index'))
+    return redirect(url_for("dashboard.index"))
 
 
+@module.route(
+    "/comments/<comment_id>/comment",
+    methods=["GET", "POST"],
+    defaults={"blog_id": None},
+)
+@module.route(
+    "/blogs/<blog_id>/comment",
+    methods=["GET", "POST"],
+    defaults={"comment_id": None},
+)
+@login_required
+def comment(blog_id, comment_id):
+    form = forms.blogs.CommentForm()
+
+    if not form.validate_on_submit():
+        print(form.errors)
+        return redirect(url_for("dashboard.index"))
+
+    comment = models.Comment(
+        body=form.body.data,
+        owner=current_user._get_current_object(),
+        last_updated_date=datetime.datetime.now(),
+        created_date=datetime.datetime.now(),
+    )
+    comment.save()
+    if blog_id:
+        target_blog = models.Blog.objects.get(id=blog_id)
+        target_blog.comments.append(comment)
+        target_blog.save()
+
+    if comment_id:
+        target_comment = models.Comment.objects.get(id=comment_id)
+        target_comment.comments.append(comment)
+        target_comment.save()
+
+    return redirect(url_for("dashboard.index"))

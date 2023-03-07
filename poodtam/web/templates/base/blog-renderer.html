@@ -1,0 +1,55 @@
+{% macro render_comment_target(form, target) %}
+
+<div class="ui relaxed list">
+    {% for comment in target.comments %}
+      <div class="item">
+        <img class="ui avatar image" src="{{ url_for('static', filename='images/user.png') }}">
+        <div class="content">
+          <span class="ui black text">{{ comment.owner.name }}</span>
+          {{ comment.body }}
+          <p>
+            <a style="color: grey" >
+              {{ comment.liked_by | count if comment.liked_by | count != 0 else '' }}
+              <i class="small heart like outline icon"></i> ชอบ
+            </a>
+            &ThickSpace; 
+            <a style="color: grey"
+                onclick="swapCommentSection('{{ comment.id }}')">
+              {{ comment.comments | count if comment.comments | count != 0 else '' }}
+              <i class="small grey comment icon"></i> ตอบกลับ
+            </a>
+            &ThickSpace; 
+            <span class="ui text" style="font-weight: 100; color: lightgrey">
+              {{ comment.get_past_time() }}
+            </span>
+          </p>
+
+          <form id="{{ comment.id }}-form" method="POST" class="ui form {{ comment.id }}" style="display: none; width: 80vw" action="{{ url_for('blogs.comment', comment_id=comment.id) }}">
+            {{ form.csrf_token() }}
+            {{ form.body(class_='ui input', rows=1) }} 
+            <p></p>
+            <button type="submit" class="ui small left floated psu-ocean-blue icon button">ส่ง <i class="paper plane icon"></i></button>
+          </form>
+
+          {% if comment.comments %}
+            {{ render_comment_target(form, comment) }}
+          {% endif %}
+
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+  <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <script type="text/javascript">
+    function swapCommentSection(comment_id) {
+        comment_form = $("#"+comment_id+'-form')
+        console.log(comment_form.css("display"))
+        if (comment_form.css("display") == "none") {
+            comment_form[0].style = 'display: inline-block; width: 80vw'
+        } else {
+            comment_form[0].style = 'display: none'
+        }
+    }
+  </script>
+{% endmacro %}
