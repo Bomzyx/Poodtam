@@ -1,0 +1,22 @@
+{% extends "/base/default-page.html" %}
+
+{% block content %}
+
+<div class="ui message info">
+    Hello, <b>{{ current_user.name }}</b>!
+</div>
+
+<div class="ui center aligned segment">
+    <img class="ui centered circular tiny image" src="{{ url_for('static', filename='images/user.png') }}">
+    <div class="ui header">
+        <div class="sub header">NAME</div>
+        {{ current_user.name }} 
+    </div>
+    <div class="ui header">
+        <div class="sub header">EMAIL</div>
+        {{ current_user.email }} 
+    </div>
+ 
+</div>
+
+{% endblock %}
