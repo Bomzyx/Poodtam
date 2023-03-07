@@ -15,7 +15,11 @@
 
 6) > python3 setup.py develop 
 
+7) > cd poodtam/web/static
+> npm install
+
 -- FINISHING SETUP PROJECT --
 
-run project with ) > ./script/run-web
+run project with 
+> ./script/run-web
 
