@@ -2,6 +2,7 @@ markupsafe==2.0.1
 werkzeug==0.16.0
 flask
 flask-mongoengine
+flask-socketio
 flask-wtf
 flask_login
 flask_bcrypt 
