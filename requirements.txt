@@ -13,3 +13,4 @@ pillow
 requests
 redis
 rq
+humanize
