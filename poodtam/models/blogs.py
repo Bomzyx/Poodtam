@@ -8,6 +8,7 @@ def change_suffix_time_to_thai(time):
     return (
         time.replace("ago", "ที่ผ่านมา")
         .replace("now", "ตอนนี้")
+        .replace("seconds ", "วินาที")
         .replace("a minute ", "ไม่กี่นาที")
         .replace("minutes ", "นาที")
         .replace("an hour ", "1 ชั่วโมง")
