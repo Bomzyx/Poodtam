@@ -1,13 +1,16 @@
 __version__ = "0.1.1"
 
 from flask import Flask
+from flask_login import LoginManager
 import optparse
-
-
 import pathlib
+import os
+from werkzeug.contrib.profiler import ProfilerMiddleware
 
 
-from . import views, models
+from . import views
+from . import oauth, acl
+from .. import models
 
 app = Flask(__name__)
 
@@ -16,12 +19,19 @@ def create_app():
     app.config.from_object("poodtam.default_settings")
     app.config.from_envvar("POODTAM_SETTINGS", silent=True)
 
+    SECRET_KEY = os.urandom(32)
+    app.secret_key = SECRET_KEY
+
     POODTAM_CACHE_DIR = app.config.get("POODTAM_CACHE_DIR")
     p = pathlib.Path(POODTAM_CACHE_DIR)
     if not p.exists():
         p.mkdir(parents=True, exist_ok=True)
 
+    models.init_db(app)
     views.register_blueprint(app)
+    oauth.init_oauth(app)
+    oauth.init_bcrypt(app)
+    acl.init_acl(app)
 
     return app
 
@@ -61,10 +71,7 @@ def get_program_options(default_host="127.0.0.1", default_port="8080"):
     )
 
     options, _ = parser.parse_args()
-
     if options.profile:
-        from werkzeug.contrib.profiler import ProfilerMiddleware
-
         app.config["PROFILE"] = True
         app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[30])
         options.debug = True

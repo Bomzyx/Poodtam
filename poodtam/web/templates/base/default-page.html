@@ -1,11 +1,12 @@
-{% extends "base/base-layout.html" %}
+{% extends "/base/base-layout.html" %}
 
 {% block body %}
 
 {% include "base/navbar.html" %}
 
-<main>
-  {% block content %}{% endblock content %}
+<main style="margin-top: 3em">
+  {% block content %}
+  {% endblock content %}
 </main>
 
 {% include "base/footer.html" %}

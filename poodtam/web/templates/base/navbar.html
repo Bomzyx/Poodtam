@@ -8,9 +8,14 @@
         </a>
     </div>
     <div class="menu">
-        <a class="item" href="{{ url_for('dashboard.index') }}">หน้าแรก</div>
+        <a class="item" href="{{ url_for('dashboard.index') }}">หน้าแรก</a>
         <div class="right menu">
-            <a class="item" href="{{ '' }}">ชนาวัฒน์</a>
+            {% if not current_user.is_authenticated %}
+                <a class="item" href="{{ url_for('accounts.register') }}" >สร้างบัญชี</a>
+                <a class="item" href="{{ url_for('accounts.login') }}">ลงชื่อเข้าใช้</a>
+            {% else %}
+                <div class="item">{{ current_user.name }}</div>
+            {% endif %}
         </div>
     </div>
 </div>

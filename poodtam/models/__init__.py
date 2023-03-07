@@ -1,10 +1,7 @@
 from flask_mongoengine import MongoEngine
 
-from . import blogs
-
-__all__ = [
-    blogs,
-]
+from .users import User
+from .blogs import Blog
 
 db = MongoEngine()
 
