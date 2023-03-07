@@ -8,8 +8,7 @@ import os
 from werkzeug.contrib.profiler import ProfilerMiddleware
 
 
-from . import views
-from . import oauth, acl
+from . import views, oauth, acl, redis_rq
 from .. import models
 
 app = Flask(__name__)
@@ -32,6 +31,7 @@ def create_app():
     oauth.init_oauth(app)
     oauth.init_bcrypt(app)
     acl.init_acl(app)
+    redis_rq.init_rq(app)
 
     return app
 
@@ -77,3 +77,4 @@ def get_program_options(default_host="127.0.0.1", default_port="8080"):
         options.debug = True
 
     return options
+
