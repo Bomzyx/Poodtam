@@ -1,0 +1,16 @@
+<div class="ui borderless menu fixed" style="position: fixed; top: 0px; left: auto; z-index: 10; box-shadow: none;">
+    <div class="header item">
+        <a href="{{ url_for('dashboard.index') }}" style="text-decoration: none;">
+            <span class="ui black text">
+                <i class="keyboard icon"></i>
+                {{ config['APP_TITLE'] }}
+            </span>
+        </a>
+    </div>
+    <div class="menu">
+        <a class="item" href="{{ url_for('dashboard.index') }}">หน้าแรก</div>
+        <div class="right menu">
+            <a class="item" href="{{ '' }}">ชนาวัฒน์</a>
+        </div>
+    </div>
+</div>
