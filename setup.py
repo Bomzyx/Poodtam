@@ -33,6 +33,7 @@ setup(
     entry_points={
         "console_scripts": [
             "poodtam-web = poodtam.cmd.web:main",
+            "poodtam-worker=poodtam.cmd.worker:main"
         ]
     },
 )

@@ -1,14 +1,16 @@
-markupsafe==2.0.1
+authlib
 werkzeug==0.16.0
+markupsafe==2.0.1
+mongoengine
+markdown
 flask
 flask-mongoengine
-flask-socketio
 flask-wtf
 flask_login
 flask_bcrypt 
-mongoengine
+flask_sse # real-time flask
 pathlib
 pillow
-markdown
-authlib
 requests
+redis
+rq
