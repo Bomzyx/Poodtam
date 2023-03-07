@@ -1,7 +1,7 @@
 from . import (
-    accounts,
+    accounts, blogs
 )
 
 __all__ = [
-    accounts,
+    accounts, blogs
 ]

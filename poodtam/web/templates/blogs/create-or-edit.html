@@ -1,0 +1,19 @@
+{% extends "base/default-page.html" %}
+
+{% block content %}
+<form class="ui form segment" method="POST">
+    {{ form.csrf_token() }}
+
+    <div class="field">
+        {{ form.subject.label }}
+        {{ form.subject }}
+    </div>
+
+    <div class="field">
+        {{ form.body.label }}
+        {{ form.body }}
+    </div>
+
+    <button type="submit" class="ui blue button">สร้าง</button>
+</form>
+{% endblock %}

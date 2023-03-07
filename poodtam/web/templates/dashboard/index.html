@@ -2,9 +2,44 @@
 
 {% block content %}
 
-<div class="ui segment">
+<div class="ui info message">This is dashboard of poomtam webboard.</div>
+<div class="ui very padded segment">
     <h1 class="ui header">Poodtam Dashboard</h1>
-    <div class="ui info message">This is dashboard of poomtam webboard.</div>
+    <a class="ui blue button" href="{{ url_for('blogs.create_or_edit') }}">สร้าง</a>
+    {% for blog in blogs %}
+    <div class="ui large fluid card">
+      <div class="content">
+        <img class="ui avatar image" src="{{ url_for('static', filename='images/user.png') }}"> {{ blog.owner.name }}
+        <div class="right floated meta">{{ blog.last_updated_date }}</div>
+      </div>
+      <div class="image">
+        <img>
+      </div>
+      <div class="content">
+        {% if blog.owner == current_user %}
+          <a class="ui large right floated blue tertiary button" href="{{ url_for('blogs.create_or_edit', blog_id=blog.id) }}">
+            <i class="edit icon"></i> 
+            แก้ไข
+          </a>
+        {% endif %}
+        <div class="ui header">{{ blog.subject }}</div>
+        <div class="ui hidden divider"></div>
+        {{ blog.get_body ()| safe }}
+      </div>
+      <div class="content">
+        <div class="ui input" style="width: 50vw">
+          <input type="text" placeholder="Add Comment...">
+        </div>
+        <i class="paper plane icon"></i>
+        <div class="right floated content">
+          <i class="heart outline like icon"></i>
+          17 likes
+          <i class="comment icon"></i>
+          3 comments
+        </div>
+      </div>
+    </div>
+    {% endfor %}
 </div>
 
 {% endblock %}
