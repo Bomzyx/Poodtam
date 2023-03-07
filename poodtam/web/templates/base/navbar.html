@@ -18,7 +18,7 @@
             {{ current_user.name }}
             <i class="dropdown icon"></i>
             <div class="menu">
-                <div class="item">โปรไฟล์</div>
+                <a class="item" href="{{ url_for('accounts.index') }}">โปรไฟล์</a>
                 <a class="item" href="{{ url_for('accounts.logout') }}">
                     <span class="ui red text">
                         ออกจากระบบ
