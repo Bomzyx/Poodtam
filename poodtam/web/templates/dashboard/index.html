@@ -3,27 +3,31 @@
 
 {% block content %}
 
-<div class="ui info message">This is dashboard of poomtam webboard.</div>
-<div class="ui segment">
-    <h1 class="ui header">Poodtam Dashboard</h1>
-    <a class="ui psu-ocean-blue button" href="{{ url_for('blogs.create_or_edit') }}">สร้าง</a>
-    {% for blog in blogs %}
-    <div class="ui large fluid card">
-      <div class="content">
-        <img class="ui avatar image" src="{{ url_for('static', filename='images/user.png') }}"> {{ blog.owner.name }}
-        <div class="right floated meta">
-          {% if blog.is_edited() %}
-          (แก้ไขแล้ว)
-          {% endif %}
-          {{ blog.get_past_time() }}
-        </div>
+<div class="ui info message">DASHBOARD OF POODTAM WEBBOARD</div>
+
+<div class="ui raised segment">
+  <h1 class="ui header">Poodtam Dashboard</h1>
+  <a class="ui psu-ocean-blue button" href="{{ url_for('blogs.create_or_edit') }}">สร้าง</a>
+</div>
+
+
+{% for blog in blogs %}
+  <div class="ui large fluid raised card" style="margin-bottom: 3em;">
+    <div class="content">
+      <img class="ui avatar image" src="{{ url_for('static', filename='images/user.png') }}"> {{ blog.owner.name }}
+      <div class="right floated meta">
+        {% if blog.is_edited() %}
+        (แก้ไขแล้ว)
+        {% endif %}
+        {{ blog.get_past_time() }}
       </div>
-      <div class="image">
-        <img>
-      </div>
-      <div class="content">
-        {% if blog.owner == current_user %}
-          <a class="ui large right floated tertiary button" style="color: rgb(44, 73, 140) !important" href="{{ url_for('blogs.create_or_edit', blog_id=blog.id) }}">
+    </div>
+    <div class="image">
+      <img>
+    </div>
+    <div class="content">
+      {% if blog.owner == current_user %}
+      <a class="ui large right floated tertiary button" style="color: rgb(44, 73, 140) !important" href="{{ url_for('blogs.create_or_edit', blog_id=blog.id) }}">
             <i class="edit icon"></i> 
             แก้ไข
           </a>
@@ -39,11 +43,11 @@
         <i style="font-size: 20px;" class="comment icon"></i>
         {{ blog.comments | count }} ความคิดเห็น
       </div>
-
+      
       <div class="content">
         {{ blog_renderer.render_comment_target(comment_form, blog) }}
       </div>
-
+      
       <div class="content">
         <form class="ui form basic fitted segment" method="POST" action="{{ url_for('blogs.comment', blog_id=blog.id) }}">
           {{ comment_form.csrf_token() }}
@@ -56,7 +60,6 @@
         </form>
       </div>
     </div>
-    {% endfor %}
-</div>
-
+{% endfor %}
+    
 {% endblock %}
