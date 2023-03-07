@@ -24,6 +24,12 @@ services:
     networks:
       - default
     restart: always
+  redis:
+    image: redis
+    container_name: poodtam-redis
+    restart: always
+    networks:
+      - default
 networks:
   default:
 
