@@ -46,3 +46,25 @@ class LoginForm(FlaskForm):
     )
     password = fields.PasswordField("รหัสผ่าน", validators=[validators.DataRequired()])
     submit = fields.SubmitField("ล็อคอิน")
+
+
+BaseProfileForm = model_form(
+    models.User,
+    FlaskForm,
+    field_args={
+        "name": {"label": "ชื่อ"},
+        "email": {"label": "อีเมล"},
+    },
+    exclude=[
+        "username",
+        "password",
+        "created_date",
+        "updated_date",
+        "is_active",
+        "last_login_date",
+    ],
+)
+
+
+class ProfileForm(BaseProfileForm):
+    pass

@@ -32,9 +32,7 @@ def register():
         return render_template("accounts/register.html", form=form)
 
     if oauth.create_user(form):
-        flash("Account created successfully.", "success")
         return redirect(url_for("accounts.login"))
-    flash("This username already exists.", "danger")
     return "Failed."
 
 
@@ -49,11 +47,7 @@ def login():
         password = form.password.data
         user = models.User.objects(username=username).first()
         if user and oauth.handle_authorized_user(form):
-            flash("Logged in successfully.", "success")
             return redirect(url_for("dashboard.index"))
-        else:
-            flash("Invalid username or password.", "danger")
-
     return render_template("accounts/login.html", form=form)
 
 
@@ -65,6 +59,24 @@ def logout():
 
     return redirect(url_for("dashboard.index"))
 
+
 @module.route("/accounts")
+@login_required
 def index():
     return render_template("accounts/index.html")
+
+
+@module.route("/edit-profile", methods=["GET", "POST"])
+@login_required
+def edit_profile():
+    user = models.User.objects.get(id=current_user.id)
+    form = forms.accounts.ProfileForm(obj=user)
+    if not form.validate_on_submit():
+        print(form.errors)
+        return render_template("accounts/edit.html", form=form)
+
+    user = current_user._get_current_object()
+    form.populate_obj(user)
+    user.save()
+
+    return redirect(url_for("accounts.index"))

@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="ui segment">
-        <h1>Register</h1>
+        <h1>Edit Profile</h1>
         {% with messages = get_flashed_messages() %}
         {% if messages %}
             <div class="ui error message">
@@ -15,26 +15,15 @@
         <form method="POST" class="ui form" action="{{ request.path }}">
             {{ form.csrf_token() }}
             {{ form.hidden_tag() }}
-            <div class="form-group">
-                {{ form.username.label }}
-                {{ form.username(class="form-control", rows="1") }}
-            </div>
-            <div class="form-group">
-                {{ form.password.label }}
-                {{ form.password(class="form-control") }}
-            </div>
-            <div class="form-group">
-                {{ form.confirm_password.label }}
-                {{ form.confirm_password(class="form-control") }}
-            </div>
             <div class="ui divider"></div>
             <div class="form-group">
                 {{ form.name.label }}
-                {{ form.name(class="form-control", rows="1") }}
+                {{ form.name(class="form-control", rows=1) }}
             </div>
+            <div class="ui hidden divider"></div>
             <div class="form-group">
                 {{ form.email.label }}
-                {{ form.email(class="form-control", rows="1") }}
+                {{ form.email(class="form-control", rows=1) }}
             </div>
             <p></p>
             <button type="submit" class="ui psu-ocean-blue button">ลงทะเบียน</button>

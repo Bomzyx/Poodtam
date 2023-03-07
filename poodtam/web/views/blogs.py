@@ -77,3 +77,35 @@ def comment(blog_id, comment_id):
         target_comment.save()
 
     return redirect(url_for("dashboard.index"))
+
+
+@module.route(
+    "/comments/<comment_id>/liked",
+    methods=["GET", "POST"],
+    defaults={"blog_id": None},
+)
+@module.route(
+    "/blogs/<blog_id>/liked",
+    methods=["GET", "POST"],
+    defaults={"comment_id": None},
+)
+@login_required
+def like_target(blog_id, comment_id):
+    user = current_user._get_current_object()
+    if blog_id:
+        blog_target = models.Blog.objects.get(id=blog_id)
+        if not user in blog_target.liked_by:
+            blog_target.liked_by.append(user)
+        else:
+            blog_target.liked_by.remove(user)
+        blog_target.save()
+
+    if comment_id:
+        comment_target = models.Comment.objects.get(id=comment_id)
+        if not user in comment_target.liked_by:
+            comment_target.liked_by.append(user)
+        else:
+            comment_target.liked_by.remove(user)
+        comment_target.save()
+
+    return redirect(url_for("dashboard.index"))

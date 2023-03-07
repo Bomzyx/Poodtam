@@ -3,17 +3,18 @@
 {% block content %}
 
 <div class="ui message info">
-    Hello, <b>{{ current_user.name }}</b>!
+    สวัสดี, <b>{{ current_user.name }}</b>!
 </div>
 
 <div class="ui center aligned segment">
     <img class="ui centered circular tiny image" src="{{ url_for('static', filename='images/user.png') }}">
+    <a class="ui blue sub header" href="{{ url_for('accounts.edit_profile') }}">แก้ไขโปรไฟล์</a>
     <div class="ui header">
-        <div class="sub header">NAME</div>
+        <div class="sub header">ชื่อ</div>
         {{ current_user.name }} 
     </div>
     <div class="ui header">
-        <div class="sub header">EMAIL</div>
+        <div class="sub header">อีเมลล์</div>
         {{ current_user.email }} 
     </div>
  

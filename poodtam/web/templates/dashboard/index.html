@@ -10,9 +10,8 @@
   <a class="ui psu-ocean-blue button" href="{{ url_for('blogs.create_or_edit') }}">สร้าง</a>
 </div>
 
-
 {% for blog in blogs %}
-  <div class="ui large fluid raised card" style="margin-bottom: 3em;">
+  <div class="ui large fluid raised blue card" style="margin-bottom: 3em;">
     <div class="content">
       <img class="ui avatar image" src="{{ url_for('static', filename='images/user.png') }}"> {{ blog.owner.name }}
       <div class="right floated meta">
@@ -27,27 +26,32 @@
     </div>
     <div class="content">
       {% if blog.owner == current_user %}
-      <a class="ui large right floated tertiary button" style="color: rgb(44, 73, 140) !important" href="{{ url_for('blogs.create_or_edit', blog_id=blog.id) }}">
+          <a class="ui large right floated tertiary button" style="color: rgb(44, 73, 140) !important" href="{{ url_for('blogs.create_or_edit', blog_id=blog.id) }}">
             <i class="edit icon"></i> 
             แก้ไข
           </a>
         {% endif %}
+        
         <div class="ui header">{{ blog.subject }}</div>
         <div class="ui hidden divider"></div>
-        {{ blog.get_body ()| safe }}
+        {{ blog.get_body () | safe }}
       </div>
       <div class="right floated content">
-        <i style="font-size: 20px;" class="heart outline like icon"></i>
-        {{ blog.liked_by | count }} ชอบ
+        <a style="color: {{ 'grey' if current_user not in blog.liked_by else 'red' }}" href="{{ url_for('blogs.like_target', blog_id=blog.id )}}" >
+          <i style="font-size: 20px;" class="heart outline like icon"></i>
+          {{ blog.liked_by | count }} ชอบ
+        </a>
         &ThickSpace;
         <i style="font-size: 20px;" class="comment icon"></i>
         {{ blog.comments | count }} ความคิดเห็น
       </div>
       
-      <div class="content">
-        {{ blog_renderer.render_comment_target(comment_form, blog) }}
-      </div>
-      
+      {% if blog.comments %}
+        <div class="content">
+          {{ blog_renderer.render_comment_target(comment_form, blog, current_user) }}
+        </div>
+      {% endif %}
+
       <div class="content">
         <form class="ui form basic fitted segment" method="POST" action="{{ url_for('blogs.comment', blog_id=blog.id) }}">
           {{ comment_form.csrf_token() }}
