@@ -64,7 +64,6 @@ def comment(blog_id, comment_id):
     form = forms.blogs.CommentForm()
 
     if not form.validate_on_submit():
-        print(form.errors)
         return redirect(url_for("dashboard.index"))
 
     comment = models.Comment(

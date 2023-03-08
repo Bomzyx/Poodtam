@@ -28,7 +28,6 @@ module = Blueprint("accounts", __name__)
 def register():
     form = forms.accounts.RegistrationForm()
     if not form.validate_on_submit():
-        print(form.errors)
         return render_template("accounts/register.html", form=form)
 
     if oauth.create_user(form):
@@ -72,7 +71,6 @@ def edit_profile():
     user = models.User.objects.get(id=current_user.id)
     form = forms.accounts.ProfileForm(obj=user)
     if not form.validate_on_submit():
-        print(form.errors)
         return render_template("accounts/edit.html", form=form)
 
     user = current_user._get_current_object()
