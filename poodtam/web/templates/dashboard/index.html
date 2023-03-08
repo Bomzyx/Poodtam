@@ -122,8 +122,9 @@
   $('.ui.dropdown').dropdown()
 </script>
 
+<div class="ui fluid centered raised blue one cards">
 {% for blog in blogs %}
-<div class="ui fluid centered raised blue card" style="margin-bottom: 3em; max-width: 1000px">
+<div class="card" href="{{ url_for('blogs.view', blog_id=blog.id) }}" style="margin-bottom: 3em; max-width: 1000px">
     {% if blog.tags %}
       <div class="extra content">
           {% for tag in blog.get_tags_display().split(' ') %}
@@ -154,10 +155,7 @@
         {{ blog.get_past_time() }}
       </div>
     </div>
-    <div class="image">
-      <img>
-    </div>
-    <div class="content">
+    <div class="content" style="cursor: pointer;" onclick="window.location.href=`{{ url_for('blogs.view', blog_id=blog.id) }}`">
        <div class="ui header">
         {{ blog.subject }}
         {% if blog.owner == current_user %}
@@ -171,7 +169,7 @@
       </div>
       <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
       <div class="right floated content">
-        <a style='color: {{ 'grey' if current_user not in blog.liked_by else 'red' }}'
+        <a style="color: {{ 'grey' if current_user not in blog.liked_by else 'red' }}"
           onclick="
             var ajax = new XMLHttpRequest();
             var total_like
@@ -226,5 +224,6 @@
       </div>
     </div>
 {% endfor %}
+</div>
     
 {% endblock %}

@@ -1,0 +1,103 @@
+{% extends "base/default-page.html" %}
+
+{% block content %}
+<div class="card" href="{{ url_for('blogs.view', blog_id=blog.id) }}" style="margin-bottom: 3em; max-width: 1000px">
+    {% if blog.tags %}
+      <div class="extra content">
+          {% for tag in blog.get_tags_display().split(' ') %}
+            <div class="ui small label
+              {{ 'olive' if tag == 'ปัญหาชีวิต' }}
+              {{ 'pink' if tag == 'ความรัก' }}
+              {{ 'yellow' if tag == 'อาหาร' }}
+              {{ 'brown' if tag == 'สัตว์' }}
+              {{ 'brown' if tag == 'สัตว์เลี้ยง' }}
+              {{ 'orange' if tag == 'ยานพาหนะ' }}
+              {{ 'teal' if tag == 'โทรศัพท์' }}
+              {{ 'teal' if tag == 'คอมพิวเตอร์' }}
+              {{ 'blue' if tag == 'เทคโนโลยี' }}
+              {{ 'blue' if tag == 'คลาวด์' }}
+              {{ 'violet' if tag == 'การศึกษา' }}
+            ">
+              {{ tag }}
+            </div>
+          {% endfor %}
+      </div>
+    {% endif %}
+    <div class="content">
+      <img class="ui avatar image" src="{{ url_for('static', filename='images/user.png') }}"> {{ blog.owner.name }}
+      <div class="right floated meta">
+        {% if blog.is_edited() %}
+        (แก้ไขแล้ว)
+        {% endif %}
+        {{ blog.get_past_time() }}
+      </div>
+    </div>
+    <div class="content" style="cursor: pointer;" onclick="window.location.href=`{{ url_for('blogs.view', blog_id=blog.id) }}`">
+       <div class="ui header">
+        {{ blog.subject }}
+        {% if blog.owner == current_user %}
+          <a class="ui large right floated tertiary button" style="color: rgb(44, 73, 140) !important" href="{{ url_for('blogs.create_or_edit', blog_id=blog.id) }}">
+            <i class="edit icon"></i> 
+            แก้ไข
+          </a>
+        {% endif %}
+        </div>
+        {{ blog.get_body () | safe }}
+      </div>
+      <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+      <div class="right floated content">
+        <a style="color: {{ 'grey' if current_user not in blog.liked_by else 'red' }}"
+          onclick="
+            var ajax = new XMLHttpRequest();
+            var total_like
+            heart = $(this)
+            $.ajax({
+              type: 'POST',
+              url: `{{ url_for('blogs.like_target', blog_id=blog.id) }}`,
+              success: function(response) {
+                if (response.length > 100) {
+                  window.location.href = `{{ url_for('accounts.login') }}`
+                } else {
+                  total_like = response['total_like']
+                  if (heart[0].style.color == 'grey') {
+                    heart[0].style = 'color: red'
+                    heart[0].childNodes[3].innerHTML = total_like
+                  } else {
+                    heart[0].style = 'color: grey'
+                    heart[0].childNodes[3].innerHTML = total_like
+                  }
+                }
+              },
+            });
+          "
+           >
+          <i style="font-size: 20px;" class="heart outline like icon"></i>
+          <span id="like-count">
+            {{ blog.liked_by | count }}
+          </span>
+          ชอบ
+        </a>
+        &ThickSpace;
+        <i style="font-size: 20px;" class="comment icon"></i>
+        {{ blog.count_comment() }} ความคิดเห็น
+      </div>
+      
+      {% if blog.comments %}
+        <div class="content">
+          {{ blog_renderer.render_comment_target(comment_form, blog, current_user) }}
+        </div>
+      {% endif %}
+
+      <div class="content">
+        <form class="ui form basic fitted segment" method="POST" action="{{ url_for('blogs.comment', blog_id=blog.id) }}">
+          {{ comment_form.csrf_token() }}
+          {{ comment_form.body(class_="ui input", rows=1, placeholder="แสดงความคิดเห็น...") }}
+          <p></p>
+          <button type="submit" class="ui icon psu-ocean-blue {{blog.id}} button">
+            แสดงความคิดเห็น  
+            <i class="paper plane icon"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+{% endblock %}

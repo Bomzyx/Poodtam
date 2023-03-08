@@ -55,7 +55,7 @@ def create_or_edit(blog_id):
     defaults={"blog_id": None},
 )
 @module.route(
-    "/blogs/<blog_id>/comment",
+    "/<blog_id>/comment",
     methods=["GET", "POST"],
     defaults={"comment_id": None},
 )
@@ -93,7 +93,7 @@ def comment(blog_id, comment_id):
     defaults={"blog_id": None},
 )
 @module.route(
-    "/blogs/<blog_id>/liked",
+    "/<blog_id>/liked",
     methods=["GET", "POST"],
     defaults={"comment_id": None},
 )
@@ -121,3 +121,66 @@ def like_target(blog_id, comment_id):
 
     total_like = len(blog_target.liked_by) if blog_id else len(comment_target.liked_by)
     return dict({"total_like": total_like})
+
+
+@module.route("/<blog_id>")
+@login_required
+def view(blog_id):
+    blog = models.Blog.objects.get(id=blog_id)
+    comment_form = forms.blogs.CommentForm()
+    tag_choices = [t[1] for t in TAG_CHOCIES]
+
+    return render_template("blogs/view.html", blog=blog)
+
+
+TAG_CHOCIES = [
+    ("life", "ปัญหาชีวิต"),
+    ("love", "ความรัก"),
+    ("food", "อาหาร"),
+    ("animal", "สัตว์"),
+    ("pet", "สัตว์เลี้ยง"),
+    ("car", "ยานพาหนะ"),
+    ("mobile", "โทรศัพท์"),
+    ("computer", "คอมพิวเตอร์"),
+    ("technology", "เทคโนโลยี"),
+    ("cloud", "คลาวด์"),
+    ("study", "การศึกษา"),
+]
+
+
+@module.route("/liked")
+@login_required
+def view_liked():
+    blogs = models.Blog.objects()
+
+    comment_form = forms.blogs.CommentForm()
+    tag_choices = [t[1] for t in TAG_CHOCIES]
+
+    sorted_by = request.args.get("sorted_by")
+
+    if sorted_by == "most_liked":
+        blogs = sorted(blogs, key=lambda x: len(x.liked_by), reverse=True)
+
+    elif sorted_by == "least_liked":
+        blogs = sorted(blogs, key=lambda x: len(x.liked_by))
+
+    elif sorted_by == "most_comment":
+        blogs = sorted(blogs, key=lambda x: x.count_comment(), reverse=True)
+
+    elif sorted_by == "least_comment":
+        blogs = sorted(blogs, key=lambda x: x.count_comment())
+
+    elif sorted_by == "oldest_date":
+        blogs = blogs.order_by("created_date")
+    else:
+        blogs = blogs.order_by("-created_date")
+
+    blogs = [b for b in blogs if current_user._get_current_object() in b.liked_by]
+    return render_template(
+        "/dashboard/index.html",
+        blogs=blogs,
+        comment_form=comment_form,
+        tag_choices=tag_choices,
+        filter_tag=request.args.get("filter_tag"),
+        sorted_by=sorted_by,
+    )
