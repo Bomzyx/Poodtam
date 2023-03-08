@@ -18,7 +18,6 @@
         {% endif %}
         {% endwith %}
         <form method="POST" class="ui form" action="{{ request.path }}">
-            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <div class="form-group">
                 {{ form.username.label }}
                 {{ form.username(class="form-control", rows="1") }}

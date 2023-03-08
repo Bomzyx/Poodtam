@@ -2,8 +2,6 @@
 
 {% block content %}
 <form class="ui form segment" method="POST">
-    {{ form.csrf_token() }}
-
     <div class="field">
         {{ form.subject.label }}
         {{ form.subject }}
