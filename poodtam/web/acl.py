@@ -40,8 +40,11 @@ def roles_required(*roles):
 
 @login_manager.user_loader
 def load_user(user_id):
-    user = models.User.objects.with_id(user_id)
-    return user
+    try:
+        user = models.User.objects.with_id(user_id)
+        return user
+    except KeyError:
+        return None
 
 
 @login_manager.unauthorized_handler

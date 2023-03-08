@@ -92,7 +92,7 @@
 
       <div class="content">
         <form class="ui form basic fitted segment" method="POST" action="{{ url_for('blogs.comment', blog_id=blog.id) }}">
-          {{ form.csrf_token }}
+          {{ comment_form.csrf_token }}
           {{ comment_form.body(class_="ui input", rows=1, placeholder="แสดงความคิดเห็น...") }}
           <p></p>
           <button type="submit" class="ui icon psu-ocean-blue {{blog.id}} button">
