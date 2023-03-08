@@ -67,4 +67,6 @@ BaseProfileForm = model_form(
 
 
 class ProfileForm(BaseProfileForm):
-    pass
+    email = fields.StringField(
+        "อีเมล", validators=[validators.Email(), validators.Optional()]
+    )

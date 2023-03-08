@@ -54,7 +54,7 @@
             var total_like
             heart = $(this)
             $.ajax({
-              type: 'POST',
+              type: 'GET',
               url: `{{ url_for('blogs.like_target', blog_id=blog.id) }}`,
               success: function(response) {
                 if (response.length > 100) {

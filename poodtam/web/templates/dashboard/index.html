@@ -11,10 +11,10 @@
 
 <div class="ui fluid centered basic clearing fitted card" style="max-width: 1000px;">
   <div class="content">
+    <div class="ui three buttons"></div>
     <a class="ui psu-ocean-blue button" href="{{ url_for('blogs.create_or_edit') }}">
       <i class="edit icon"></i> สร้างโพสต์
     </a>
-
     <div class="ui dropdown basic black floating labeled icon button right floated" style="background-color: white;">
       <i class="sort icon"></i>
       <span class="text">
@@ -70,7 +70,6 @@
         </div>
       </div>
     </div>
-    
     <div class="ui dropdown basic black floating labeled icon button right floated" style="background-color: white;">
       <i class="filter icon"></i>
       <span class="text">
@@ -171,7 +170,7 @@
             var total_like
             heart = $(this)
             $.ajax({
-              type: 'POST',
+              type: 'GET',
               url: `{{ url_for('blogs.like_target', blog_id=blog.id) }}`,
               success: function(response) {
                 if (response.length > 100) {

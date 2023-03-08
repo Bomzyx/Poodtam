@@ -149,7 +149,7 @@ TAG_CHOCIES = [
 ]
 
 
-@module.route("/liked")
+@module.route("/view_liked_post")
 @login_required
 def view_liked():
     blogs = models.Blog.objects()
