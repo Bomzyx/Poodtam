@@ -12,8 +12,6 @@ from . import views, oauth, acl, redis_rq
 from .. import models
 
 app = Flask(__name__)
-csrf = CSRFProtect()
-login_manager = LoginManager()  # Login manager for flask-login # New
 
 
 def create_app():
@@ -21,10 +19,17 @@ def create_app():
     app.config.from_envvar("POODTAM_SETTINGS", silent=True)
 
     SECRET_KEY = os.urandom(32)
-    app.config["SECRET_KEY"] = SECRET_KEY = SECRET_KEY
-    app.config["SESSION_COOKIE_SECURE"] = False
-    app.config["WTF_CSRF_METHODS"] = []
+    app.config.update(
+        SECRET_KEY=SECRET_KEY,
+        SESSION_COOKIE_SECURE=False,
+        WTF_CSRF_ENABLED=False,
+        WTF_CSRF_METHODS=[],
+        WTF_CSRF_CHECK_DEFAULT=False,
+    )
+
+    csrf = CSRFProtect()
     csrf.init_app(app)
+    login_manager = LoginManager()  # Login manager for flask-login # New
     login_manager.init_app(app)
 
     POODTAM_CACHE_DIR = app.config.get("POODTAM_CACHE_DIR")
