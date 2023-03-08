@@ -43,7 +43,6 @@ def login():
     form = forms.accounts.LoginForm()
     if form.validate_on_submit():
         username = form.username.data
-        password = form.password.data
         user = models.User.objects(username=username).first()
         if user and oauth.handle_authorized_user(form):
             return redirect(url_for("dashboard.index"))

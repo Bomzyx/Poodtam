@@ -56,7 +56,7 @@ def handle_authorized_user(form):
     username = form.username.data
     password = form.password.data
     user = models.User.objects(username=username).first()
-    if user and bcrypt.check_password_hash(user["password"], password):
+    if user and bcrypt.check_password_hash(user.password, password):
         login_user(user)
         user.save()
         return True
