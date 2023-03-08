@@ -10,9 +10,35 @@
             {{ comment.get_body() | safe}}
           </p>
           <p>
-            <a href="{{ url_for('blogs.like_target', comment_id=comment.id) }}" style="color: {{ 'grey' if current_user not in comment.liked_by else 'red' }}">
+            <a style="color: {{ 'grey' if current_user not in comment.liked_by else 'red' }}"
+              onclick="
+                var ajax = new XMLHttpRequest();
+                var total_like
+                heart = $(this)
+                $.ajax({
+                  type: 'POST',
+                  url: `{{ url_for('blogs.like_target', comment_id=comment.id) }}`,
+                  success: function(response) {
+                    if (response.length > 100) {
+                      window.location.href = `{{ url_for('accounts.login') }}`
+                    } else {
+                      total_like = response['total_like']
+                      if (heart[0].style.color == 'grey') {
+                        heart[0].style = 'color: red'
+                        heart[0].childNodes[3].innerHTML = total_like
+                      } else {
+                        heart[0].style = 'color: grey'
+                        heart[0].childNodes[3].innerHTML = total_like
+                      }
+                    }
+                  },
+                });
+              "
+            >
               <i class="small heart like outline icon"></i> 
-                {{ comment.liked_by | count if comment.liked_by | count != 0 else '' }}
+              <span id="like-count">
+                {{ comment.liked_by | count }}
+              </span>
                 ชอบ
             </a>
             &ThickSpace; 

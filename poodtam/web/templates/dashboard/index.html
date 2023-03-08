@@ -53,10 +53,10 @@
                   total_like = response['total_like']
                   if (heart[0].style.color == 'grey') {
                     heart[0].style = 'color: red'
-                    heart[0].childNodes[3].innerHTML = total_like + ' ชอบ'
+                    heart[0].childNodes[3].innerHTML = total_like
                   } else {
                     heart[0].style = 'color: grey'
-                    heart[0].childNodes[3].innerHTML = total_like + ' ชอบ'
+                    heart[0].childNodes[3].innerHTML = total_like
                   }
                 }
               },
@@ -65,8 +65,9 @@
            >
           <i style="font-size: 20px;" class="heart outline like icon"></i>
           <span id="like-count">
-            {{ blog.liked_by | count }} ชอบ
+            {{ blog.liked_by | count }}
           </span>
+          ชอบ
         </a>
         &ThickSpace;
         <i style="font-size: 20px;" class="comment icon"></i>

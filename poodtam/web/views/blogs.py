@@ -118,4 +118,5 @@ def like_target(blog_id, comment_id):
             comment_target.liked_by.remove(user)
         comment_target.save()
 
-    return dict({"total_like": len(blog_target.liked_by)})
+    total_like = len(blog_target.liked_by) if blog_id else len(comment_target.liked_by)
+    return dict({"total_like": total_like})
