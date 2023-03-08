@@ -1,7 +1,9 @@
 {% extends "base/default-page.html" %}
+{% import "/base/blog-renderer.html" as blog_renderer %}
+
 
 {% block content %}
-<div class="card" href="{{ url_for('blogs.view', blog_id=blog.id) }}" style="margin-bottom: 3em; max-width: 1000px">
+<div class="ui fluid centered card" href="{{ url_for('blogs.view', blog_id=blog.id) }}" style="margin-bottom: 3em; max-width: 1000px">
     {% if blog.tags %}
       <div class="extra content">
           {% for tag in blog.get_tags_display().split(' ') %}

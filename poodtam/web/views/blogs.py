@@ -130,7 +130,9 @@ def view(blog_id):
     comment_form = forms.blogs.CommentForm()
     tag_choices = [t[1] for t in TAG_CHOCIES]
 
-    return render_template("blogs/view.html", blog=blog)
+    return render_template(
+        "blogs/view.html", blog=blog, comment_form=comment_form, tag_choices=tag_choices
+    )
 
 
 TAG_CHOCIES = [
@@ -176,6 +178,7 @@ def view_liked():
         blogs = blogs.order_by("-created_date")
 
     blogs = [b for b in blogs if current_user._get_current_object() in b.liked_by]
+
     return render_template(
         "/dashboard/index.html",
         blogs=blogs,

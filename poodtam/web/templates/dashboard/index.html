@@ -123,54 +123,50 @@
 </script>
 
 <div class="ui fluid centered raised blue one cards">
+
+{% set blog_count = namespace(value=0) %}
 {% for blog in blogs %}
-<div class="card" href="{{ url_for('blogs.view', blog_id=blog.id) }}" style="margin-bottom: 3em; max-width: 1000px">
-    {% if blog.tags %}
-      <div class="extra content">
-          {% for tag in blog.get_tags_display().split(' ') %}
-            <div class="ui small label
-              {{ 'olive' if tag == 'ปัญหาชีวิต' }}
-              {{ 'pink' if tag == 'ความรัก' }}
-              {{ 'yellow' if tag == 'อาหาร' }}
-              {{ 'brown' if tag == 'สัตว์' }}
-              {{ 'brown' if tag == 'สัตว์เลี้ยง' }}
-              {{ 'orange' if tag == 'ยานพาหนะ' }}
-              {{ 'teal' if tag == 'โทรศัพท์' }}
-              {{ 'teal' if tag == 'คอมพิวเตอร์' }}
-              {{ 'blue' if tag == 'เทคโนโลยี' }}
-              {{ 'blue' if tag == 'คลาวด์' }}
-              {{ 'violet' if tag == 'การศึกษา' }}
-            ">
-              {{ tag }}
-            </div>
-          {% endfor %}
-      </div>
-    {% endif %}
-    <div class="content">
-      <img class="ui avatar image" src="{{ url_for('static', filename='images/user.png') }}"> {{ blog.owner.name }}
-      <div class="right floated meta">
-        {% if blog.is_edited() %}
-        (แก้ไขแล้ว)
-        {% endif %}
-        {{ blog.get_past_time() }}
-      </div>
-    </div>
-    <div class="content" style="cursor: pointer;" onclick="window.location.href=`{{ url_for('blogs.view', blog_id=blog.id) }}`">
-       <div class="ui header">
-        {{ blog.subject }}
-        {% if blog.owner == current_user %}
-          <a class="ui large right floated tertiary button" style="color: rgb(44, 73, 140) !important" href="{{ url_for('blogs.create_or_edit', blog_id=blog.id) }}">
-            <i class="edit icon"></i> 
-            แก้ไข
-          </a>
-        {% endif %}
+  {% if not request.args.get("filter_tag") or request.args.get("filter_tag") in blog.get_tags_display() %}
+    {% set blog_count.value = blog_count.value + 1 %}
+    <div class="card" href="{{ url_for('blogs.view', blog_id=blog.id) }}" style="margin-bottom: 3em; max-width: 1000px">
+      {% if blog.tags %}
+        <div class="extra content">
+            {% for tag in blog.get_tags_display().split(' ') %}
+              <div class="ui small label
+                {{ 'olive' if tag == 'ปัญหาชีวิต' }} {{ 'pink' if tag == 'ความรัก' }} {{ 'yellow' if tag == 'อาหาร' }}
+                {{ 'brown' if tag == 'สัตว์' }} {{ 'brown' if tag == 'สัตว์เลี้ยง' }} {{ 'orange' if tag == 'ยานพาหนะ' }}
+                {{ 'teal' if tag == 'โทรศัพท์' }} {{ 'teal' if tag == 'คอมพิวเตอร์' }} {{ 'blue' if tag == 'เทคโนโลยี' }}
+                {{ 'blue' if tag == 'คลาวด์' }} {{ 'violet' if tag == 'การศึกษา' }} ">
+                {{ tag }}
+              </div>
+            {% endfor %}
         </div>
-        {{ blog.get_body () | safe }}
+      {% endif %}
+      <div class="content">
+        <img class="ui avatar image" src="{{ url_for('static', filename='images/user.png') }}"> {{ blog.owner.name }}
+        <div class="right floated meta">
+          {% if blog.is_edited() %}
+          (แก้ไขแล้ว)
+          {% endif %}
+          {{ blog.get_past_time() }}
+        </div>
       </div>
-      <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-      <div class="right floated content">
-        <a style="color: {{ 'grey' if current_user not in blog.liked_by else 'red' }}"
-          onclick="
+      <div class="content" style="cursor: pointer;" onclick="window.location.href=`{{ url_for('blogs.view', blog_id=blog.id) }}`">
+        <div class="ui header">
+          {{ blog.subject }}
+          {% if blog.owner == current_user %}
+            <a class="ui large right floated tertiary button" style="color: rgb(44, 73, 140) !important" href="{{ url_for('blogs.create_or_edit', blog_id=blog.id) }}">
+              <i class="edit icon"></i> 
+              แก้ไข
+            </a>
+          {% endif %}
+          </div>
+          {{ blog.get_body () | safe }}
+        </div>
+        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+        <div class="right floated content">
+          <a style="color: {{ 'grey' if current_user not in blog.liked_by else 'red' }}"
+            onclick="
             var ajax = new XMLHttpRequest();
             var total_like
             heart = $(this)
@@ -191,9 +187,8 @@
                   }
                 }
               },
-            });
-          "
-           >
+            });"
+          >
           <i style="font-size: 20px;" class="heart outline like icon"></i>
           <span id="like-count">
             {{ blog.liked_by | count }}
@@ -223,7 +218,24 @@
         </form>
       </div>
     </div>
+  {% endif %}
 {% endfor %}
+
+{% if blog_count.value == 0 %}
+    <div class="ui text" style="margin-top: 3em">
+      ไม่มีโพสต์{% if filter_tag %}สำหรับ 
+      <div class="ui small label" style="background-color: white;">
+        <i class="circle icon
+        {{ 'olive' if filter_tag == 'ปัญหาชีวิต' }} {{ 'pink' if filter_tag == 'ความรัก' }} {{ 'yellow' if filter_tag == 'อาหาร' }}
+        {{ 'brown' if filter_tag == 'สัตว์' }} {{ 'brown' if filter_tag == 'สัตว์เลี้ยง' }} {{ 'orange' if filter_tag == 'ยานพาหนะ' }}
+        {{ 'teal' if filter_tag == 'โทรศัพท์' }} {{ 'teal' if filter_tag == 'คอมพิวเตอร์' }} {{ 'blue' if filter_tag == 'เทคโนโลยี' }}
+        {{ 'blue' if filter_tag == 'คลาวด์' }} {{ 'violet' if filter_tag == 'การศึกษา' }}
+        "></i>
+        {{ filter_tag }}
+      </div>
+    {% endif %}
+    </div>
+{% endif %}
 </div>
     
 {% endblock %}
