@@ -21,7 +21,6 @@ def create_app():
     app.config.update(
         SECRET_KEY=SECRET_KEY,
         SESSION_COOKIE_SECURE=False,
-        WTF_CSRF_ENABLED=False,
     )
     app.config["WTF_CSRF_METHODS"] = []
     POODTAM_CACHE_DIR = app.config.get("POODTAM_CACHE_DIR")
