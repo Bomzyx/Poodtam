@@ -22,13 +22,28 @@ TAG_CHOCIES = [
 
 @module.route("/")
 def index():
-    blogs = models.Blog.objects().order_by("-created_date")
+    blogs = models.Blog.objects()
     comment_form = forms.blogs.CommentForm()
     tag_choices = [t[1] for t in TAG_CHOCIES]
 
     sorted_by = request.args.get("sorted_by")
-    if sorted_by:
-        blogs.order_by()
+
+    if sorted_by == "most_liked":
+        blogs = sorted(blogs, key=lambda x: len(x.liked_by), reverse=True)
+
+    elif sorted_by == "least_liked":
+        blogs = sorted(blogs, key=lambda x: len(x.liked_by))
+
+    elif sorted_by == "most_comment":
+        blogs = sorted(blogs, key=lambda x: x.count_comment(), reverse=True)
+
+    elif sorted_by == "least_comment":
+        blogs = sorted(blogs, key=lambda x: x.count_comment())
+
+    elif sorted_by == "oldest_date":
+        blogs = blogs.order_by("created_date")
+    else:
+        blogs = blogs.order_by("-created_date")
 
     return render_template(
         "/dashboard/index.html",
