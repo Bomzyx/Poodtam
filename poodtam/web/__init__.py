@@ -19,8 +19,10 @@ def create_app():
     app.config.from_envvar("POODTAM_SETTINGS", silent=True)
 
     SECRET_KEY = os.urandom(32)
-    app.secret_key = SECRET_KEY
-
+    app.config.update(
+        SECRET_KEY=SECRET_KEY,
+        SESSION_COOKIE_SECURE=False,
+    )
     csrf = CSRFProtect()
     csrf.init_app(app)
 
