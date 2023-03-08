@@ -34,6 +34,15 @@ class Comment(me.Document):
     def get_body(self):
         return markdown.markdown(self.body)
 
+    def count_comment(self):
+        count = 0
+        for comment in self.comments:
+            count += 1
+            if comment.comments:
+                count += comment.count_comment()
+
+        return count
+
     def get_natural_last_updated_date(self):
         return self.last_updated_date.strftime("%d %B %Y, %I:%M %p")
 
@@ -66,6 +75,15 @@ class Blog(me.Document):
 
     def get_body(self):
         return markdown.markdown(self.body)
+
+    def count_comment(self):
+        count = 0
+        for comment in self.comments:
+            count += 1
+            if comment.comments:
+                count += comment.count_comment()
+
+        return count
 
     def get_natural_last_updated_date(self):
         return self.last_updated_date.strftime("%d %B %Y, %I:%M %p")

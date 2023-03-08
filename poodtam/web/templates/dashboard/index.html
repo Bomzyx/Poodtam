@@ -5,13 +5,15 @@
 
 <div class="ui info message">DASHBOARD OF POODTAM WEBBOARD</div>
 
-<div class="ui raised segment">
-  <h1 class="ui header">Poodtam Dashboard</h1>
-  <a class="ui psu-ocean-blue button" href="{{ url_for('blogs.create_or_edit') }}">สร้าง</a>
+<div class="ui large fluid centered raised blue card" style="max-width: 50vw">
+  <div class="content">
+    <h1 class="ui header">Poodtam Dashboard</h1>
+    <a class="ui psu-ocean-blue button" href="{{ url_for('blogs.create_or_edit') }}">สร้าง</a>
+  </div>
 </div>
 
 {% for blog in blogs %}
-  <div class="ui large fluid raised blue card" style="margin-bottom: 3em;">
+  <div class="ui large fluid centered raised blue card" style="margin-bottom: 3em; max-width: 50vw">
     <div class="content">
       <img class="ui avatar image" src="{{ url_for('static', filename='images/user.png') }}"> {{ blog.owner.name }}
       <div class="right floated meta">
@@ -71,7 +73,7 @@
         </a>
         &ThickSpace;
         <i style="font-size: 20px;" class="comment icon"></i>
-        {{ blog.comments | count }} ความคิดเห็น
+        {{ blog.count_comment() }} ความคิดเห็น
       </div>
       
       {% if blog.comments %}
