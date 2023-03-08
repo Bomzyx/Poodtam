@@ -18,19 +18,12 @@ def create_app():
     app.config.from_object("poodtam.default_settings")
     app.config.from_envvar("POODTAM_SETTINGS", silent=True)
 
-    SECRET_KEY = os.urandom(32)
     app.config.update(
-        SECRET_KEY=SECRET_KEY,
         SESSION_COOKIE_SECURE=False,
-        WTF_CSRF_ENABLED=False,
-        WTF_CSRF_METHODS=[],
-        WTF_CSRF_CHECK_DEFAULT=False,
     )
 
     csrf = CSRFProtect()
     csrf.init_app(app)
-    login_manager = LoginManager()  # Login manager for flask-login # New
-    login_manager.init_app(app)
 
     POODTAM_CACHE_DIR = app.config.get("POODTAM_CACHE_DIR")
     p = pathlib.Path(POODTAM_CACHE_DIR)
