@@ -2,6 +2,7 @@ __version__ = "0.1.1"
 
 from flask import Flask
 from flask_login import LoginManager
+from flask_wtf.csrf import CSRFProtect
 import optparse
 import pathlib
 import os
@@ -19,6 +20,9 @@ def create_app():
 
     SECRET_KEY = os.urandom(32)
     app.secret_key = SECRET_KEY
+
+    csrf = CSRFProtect()
+    csrf.init_app(app)
 
     POODTAM_CACHE_DIR = app.config.get("POODTAM_CACHE_DIR")
     p = pathlib.Path(POODTAM_CACHE_DIR)
