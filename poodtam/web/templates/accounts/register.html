@@ -19,6 +19,7 @@
         {% endwith %}
         <form method="POST" class="ui form" action="{{ request.path }}">
             <div class="form-group">
+                {{ form.csrf_token }}
                 {{ form.username.label }}
                 {{ form.username(class="form-control", rows="1") }}
             </div>

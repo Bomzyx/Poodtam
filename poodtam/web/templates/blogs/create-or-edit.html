@@ -3,6 +3,7 @@
 {% block content %}
 <form class="ui form segment" method="POST">
     <div class="field">
+        {{ form.csrf_token }}
         {{ form.subject.label }}
         {{ form.subject }}
     </div>

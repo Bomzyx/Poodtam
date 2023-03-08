@@ -25,11 +25,6 @@ def create_app():
         WTF_CSRF_METHODS=[],
     )
 
-    csrf = CSRFProtect()
-    csrf.init_app(app)
-    login_manager = LoginManager()  # Login manager for flask-login # New
-    login_manager.init_app(app)
-
     POODTAM_CACHE_DIR = app.config.get("POODTAM_CACHE_DIR")
     p = pathlib.Path(POODTAM_CACHE_DIR)
     if not p.exists():
@@ -41,6 +36,11 @@ def create_app():
     oauth.init_bcrypt(app)
     acl.init_acl(app)
     redis_rq.init_rq(app)
+
+    csrf = CSRFProtect()
+    csrf.init_app(app)
+    login_manager = LoginManager()  # Login manager for flask-login # New
+    login_manager.init_app(app)
 
     return app
 

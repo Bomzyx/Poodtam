@@ -58,7 +58,8 @@
 
           <form id="{{ comment.id }}-form" method="POST" class="ui form {{ comment.id }}" style="display: none;" action="{{ url_for('blogs.comment', comment_id=comment.id) }}">
             <div class="field">
-              {{ form.body(class_='ui input', rows=1) }} 
+                {{ form.csrf_token }}
+                {{ form.body(class_='ui input', rows=1) }} 
             </div>
             <p></p>
             <button type="submit" class="ui small left floated psu-ocean-blue icon button">ส่ง <i class="paper plane icon"></i></button>
