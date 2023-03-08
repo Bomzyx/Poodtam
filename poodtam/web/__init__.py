@@ -19,12 +19,13 @@ def create_app():
     app.config.from_envvar("POODTAM_SETTINGS", silent=True)
 
     SECRET_KEY = os.urandom(32)
+    csrf = CSRFProtect()
+    csrf.init_app(app)
     app.config.update(
         SECRET_KEY=SECRET_KEY,
         SESSION_COOKIE_SECURE=False,
+        WTF_CSRF_ENABLED=False,
     )
-    csrf = CSRFProtect()
-    csrf.init_app(app)
 
     POODTAM_CACHE_DIR = app.config.get("POODTAM_CACHE_DIR")
     p = pathlib.Path(POODTAM_CACHE_DIR)
