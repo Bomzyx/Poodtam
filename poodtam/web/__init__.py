@@ -5,7 +5,6 @@ from flask_login import LoginManager
 import optparse
 import pathlib
 import os
-from werkzeug.contrib.profiler import ProfilerMiddleware
 
 
 from . import views, oauth, acl, redis_rq
@@ -71,9 +70,5 @@ def get_program_options(default_host="127.0.0.1", default_port="8080"):
     )
 
     options, _ = parser.parse_args()
-    if options.profile:
-        app.config["PROFILE"] = True
-        app.wsgi_app = ProfilerMiddleware(app.wsgi_app, restrictions=[30])
-        options.debug = True
 
     return options
