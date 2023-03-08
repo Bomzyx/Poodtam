@@ -48,7 +48,6 @@
   <script type="text/javascript">
     function swapCommentSection(comment_id) {
         comment_form = $("#"+comment_id+'-form')
-        console.log(comment_form.css("display"))
         if (comment_form.css("display") == "none") {
             comment_form[0].style = 'display: inline-block; width: 80vw'
         } else {

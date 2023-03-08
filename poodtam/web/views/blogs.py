@@ -1,4 +1,11 @@
-from flask import Blueprint, render_template_string, render_template, redirect, url_for
+from flask import (
+    Blueprint,
+    render_template_string,
+    render_template,
+    redirect,
+    url_for,
+    request,
+)
 
 from .. import forms
 from ... import models
@@ -92,6 +99,8 @@ def comment(blog_id, comment_id):
 @login_required
 def like_target(blog_id, comment_id):
     user = current_user._get_current_object()
+
+    blog_target = None
     if blog_id:
         blog_target = models.Blog.objects.get(id=blog_id)
         if not user in blog_target.liked_by:
@@ -100,6 +109,7 @@ def like_target(blog_id, comment_id):
             blog_target.liked_by.remove(user)
         blog_target.save()
 
+    comment_target = None
     if comment_id:
         comment_target = models.Comment.objects.get(id=comment_id)
         if not user in comment_target.liked_by:
@@ -108,4 +118,4 @@ def like_target(blog_id, comment_id):
             comment_target.liked_by.remove(user)
         comment_target.save()
 
-    return redirect(url_for("dashboard.index"))
+    return dict({"total_like": len(blog_target.liked_by)})
