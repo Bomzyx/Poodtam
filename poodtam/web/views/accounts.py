@@ -32,7 +32,7 @@ def register():
 
     if oauth.create_user(form):
         return redirect(url_for("accounts.login"))
-    return "Failed."
+    return redirect(url_for("accounts.login", login_status="failed"))
 
 
 @module.route("/login", methods=["GET", "POST"])
