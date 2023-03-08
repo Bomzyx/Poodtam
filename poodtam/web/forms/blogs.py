@@ -6,6 +6,21 @@ from flask_mongoengine.wtf import model_form
 
 from poodtam import models
 
+
+TAG_CHOICES = [
+    ("life", "ปัญหาชีวิต"),
+    ("love", "ความรัก"),
+    ("food", "อาหาร"),
+    ("animal", "สัตว์"),
+    ("pet", "สัตว์เลี้ยง"),
+    ("car", "ยานพาหนะ"),
+    ("mobile", "โทรศัพท์"),
+    ("computer", "คอมพิวเตอร์"),
+    ("technology", "เทคโนโลยี"),
+    ("cloud", "คลาวด์"),
+    ("study", "การศึกษา"),
+]
+
 BaseBlogForm = model_form(
     models.Blog,
     FlaskForm,
@@ -22,7 +37,7 @@ BaseBlogForm = model_form(
 
 
 class BlogForm(BaseBlogForm):
-    pass
+    tags = fields.SelectMultipleField("แท็ก", choices=TAG_CHOICES)
 
 
 BaseCommentForm = model_form(

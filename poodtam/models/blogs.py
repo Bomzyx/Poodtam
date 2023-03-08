@@ -3,6 +3,20 @@ import datetime
 import markdown
 import humanize
 
+TAG_CHOICES = [
+    ("life", "ปัญหาชีวิต"),
+    ("love", "ความรัก"),
+    ("food", "อาหาร"),
+    ("animal", "สัตว์"),
+    ("pet", "สัตว์เลี้ยง"),
+    ("car", "ยานพาหนะ"),
+    ("mobile", "โทรศัพท์"),
+    ("computer", "คอมพิวเตอร์"),
+    ("technology", "เทคโนโลยี"),
+    ("cloud", "คลาวด์"),
+    ("study", "การศึกษา"),
+]
+
 
 def change_suffix_time_to_thai(time):
     return (
@@ -65,10 +79,12 @@ class Blog(me.Document):
     meta = {"collection": "blogs"}
 
     subject = me.StringField(required=True, max_length=255)
-    body = me.StringField(required=True)
+    body = me.StringField()
     owner = me.ReferenceField("User", dbref=True, required=True)
     created_date = me.DateTimeField(required=True)
     last_updated_date = me.DateTimeField(required=True)
+
+    tags = me.ListField(me.StringField(), choices=TAG_CHOICES)
 
     liked_by = me.ListField(me.ReferenceField("User", dbref=True))
     comments = me.ListField(me.ReferenceField("Comment", dbref=True))

@@ -14,6 +14,19 @@
         {{ form.body }}
     </div>
 
-    <button type="submit" class="ui blue button">สร้าง</button>
+    <div class="field">
+        {{ form.tags.label }}
+        {{ form.tags(class_="ui fluid search dropdown", multiple="") | safe }}
+    </div>
+
+    <button type="submit" class="ui psu-ocean-blue button">
+        สร้าง
+    </button>
 </form>
+
+<script>
+    $('.ui.dropdown')
+    .dropdown()
+    ;
+</script>
 {% endblock %}

@@ -164,12 +164,12 @@
 }
 
 .psu-sritrang-blue {
-    color: rgb(182, 184, 220);
+    color: rgb(77, 81, 171) !important;
 }
 
 .psu-sritrang-blue.button,
 .psu-sritrang-blue.buttons .button {
-    background-color: rgb(182, 184, 220) !important;
+    background-color: rgb(77, 81, 171) !important;
     color: #fff !important;
     text-shadow: none;
     background-image: none;
@@ -177,12 +177,12 @@
 
 .psu-sritrang-blue.button:hover,
 .psu-sritrang-blue.buttons .button:hover {
-    background-color: rgb(139, 142, 209) !important;
+    background-color: rgb(77, 81, 171) !important;
     color: #fff !important
 }
 
 .psu-sritrang-blue.button.active,
 .psu-sritrang-blue.buttons .button:hover .button:focus {
-    background-color: rgb(139, 142, 209) !important;
+    background-color: rgb(86, 91, 184) !important;
     color: #fff !important
 }

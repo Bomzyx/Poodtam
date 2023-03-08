@@ -1,6 +1,6 @@
 {% macro render_comment_target(form, target, current_user) %}
 
-<div class="ui relaxed list">
+<div class="ui list">
     {% for comment in target.comments %}
       <div class="item">
         <img class="ui avatar image" src="{{ url_for('static', filename='images/user.png') }}">
@@ -48,15 +48,19 @@
               {{ comment.comments | count if comment.comments | count != 0 else '' }}
               ตอบกลับ
             </a>
+            
             &ThickSpace; 
-            <span class="ui text" style="font-weight: 100; color: lightgrey">
+            <br class="past-time-space" style="display: none;">
+            <span class="ui text" style="font-weight: 100; color: rgb(181, 181, 181)">
               {{ comment.get_past_time() }}
             </span>
           </p>
 
-            <form id="{{ comment.id }}-form" method="POST" class="ui form {{ comment.id }}" style="display: none; width: 80vw" action="{{ url_for('blogs.comment', comment_id=comment.id) }}">
+          <form id="{{ comment.id }}-form" method="POST" class="ui form {{ comment.id }}" style="display: none;" action="{{ url_for('blogs.comment', comment_id=comment.id) }}">
             {{ form.csrf_token() }}
-            {{ form.body(class_='ui input', rows=1) }} 
+            <div class="field">
+              {{ form.body(class_='ui input', rows=1) }} 
+            </div>
             <p></p>
             <button type="submit" class="ui small left floated psu-ocean-blue icon button">ส่ง <i class="paper plane icon"></i></button>
           </form>
@@ -75,10 +79,18 @@
     function swapCommentSection(comment_id) {
         comment_form = $("#"+comment_id+'-form')
         if (comment_form.css("display") == "none") {
-            comment_form[0].style = 'display: inline-block; width: 80vw'
+            comment_form[0].style = 'display: inline-block; width: 25vw'
         } else {
             comment_form[0].style = 'display: none'
         }
     }
   </script>
+
+  <style>
+    @media (max-width: 1000px) { 
+    .past-time-space {
+      display: block !important
+    }
+  }
+  </style>
 {% endmacro %}

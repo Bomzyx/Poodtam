@@ -42,6 +42,7 @@ def create_or_edit(blog_id):
 
     blog.subject = form.subject.data
     blog.body = form.body.data
+    blog.tags = [t for t in form.tags.data]
     blog.last_updated_date = datetime.datetime.now()
     blog.save()
 
