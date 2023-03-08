@@ -25,10 +25,16 @@ def index():
     blogs = models.Blog.objects().order_by("-created_date")
     comment_form = forms.blogs.CommentForm()
     tag_choices = [t[1] for t in TAG_CHOCIES]
+
+    sorted_by = request.args.get("sorted_by")
+    if sorted_by:
+        blogs.order_by()
+
     return render_template(
         "/dashboard/index.html",
         blogs=blogs,
         comment_form=comment_form,
         tag_choices=tag_choices,
         filter_tag=request.args.get("filter_tag"),
+        sorted_by=sorted_by,
     )

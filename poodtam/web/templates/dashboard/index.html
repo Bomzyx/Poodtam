@@ -8,15 +8,72 @@
 <div class="ui fluid centered raised blue card" style="max-width: 1000px">
   <div class="content">
     <h1 class="ui header">Poodtam Dashboard</h1>
-    <a class="ui psu-ocean-blue  button" href="{{ url_for('blogs.create_or_edit') }}">
-      <i class="edit icon"></i> สร้างโพสต์
-    </a>
   </div>
 </div>
 
-<div class="ui fluid centered raised basic fitted card" style="max-width: 1000px;">
+<div class="ui fluid centered basic clearing fitted card" style="max-width: 1000px;">
   <div class="content">
-    <div class="ui dropdown basic black floating labeled icon button">
+    <a class="ui psu-ocean-blue button" href="{{ url_for('blogs.create_or_edit') }}">
+      <i class="edit icon"></i> สร้างโพสต์
+    </a>
+
+    <div class="ui dropdown basic black floating labeled icon button right floated" style="background-color: white;">
+      <i class="sort icon"></i>
+      <span class="text">
+        {% if not sorted_by %}
+        จัดเรียงตาม
+        {% else %}
+          {% if sorted_by == 'newest_date' %} 
+            <i class="blue calendar icon"></i> วันที่ (ใหม่ที่สุด)
+          {% elif sorted_by == 'oldest_date' %} 
+            <i class="red calendar icon"></i> วันที่ (เก่าที่สุด)
+          {% elif sorted_by == 'most_liked' %} 
+            <i class="blue heart icon"></i> ความชอบ (มากที่สุด)
+          {% elif sorted_by == 'least_liked' %} 
+            <i class="red heart icon"></i> ความชอบ (น้อยที่สุด)
+          {% elif sorted_by == 'most_comment' %} 
+            <i class="blue comment icon"></i> ความคิดเห็น (มากที่สุด)
+          {% elif sorted_by == 'least_comment' %} 
+            <i class="red comment icon"></i> ความคิดเห็น (น้อยที่สุด)
+          {% endif %}
+        {% endif %}
+      </span>
+      <div class="menu">
+        <div class="header">
+          <i class="tags icon"></i>
+          เลือกการจัดเรียง
+        </div>
+        <div class="scrolling menu">
+          {% if sorted_by %}
+            <a class="item" href="{{ url_for('dashboard.index', filter_tag=filter_tag) }}">
+              ลบการจัดเรียง
+            </a>
+          {% endif %}
+          <a class="item" href="{{ url_for('dashboard.index', sorted_by='newest_date', filter_tag=filter_tag) }}">
+            <i class="blue calendar icon"></i> วันที่ (ใหม่ที่สุด)
+          </a>
+          <a class="item" href="{{ url_for('dashboard.index', sorted_by='oldest_date', filter_tag=filter_tag) }}">
+            <i class="red calendar icon"></i> วันที่ (เก่าที่สุด)
+          </a>
+          <div class="divider"></div>
+          <a class="item" href="{{ url_for('dashboard.index', sorted_by='most_liked', filter_tag=filter_tag) }}">
+            <i class="blue heart icon"></i> ความชอบ (มากที่สุด)
+          </a>
+          <a class="item" href="{{ url_for('dashboard.index', sorted_by='least_liked', filter_tag=filter_tag) }}">
+            <i class="red heart icon"></i> ความชอบ (น้อยที่สุด)
+          </a>
+          <div class="divider"></div>
+          <a class="item" href="{{ url_for('dashboard.index', sorted_by='most_comment', filter_tag=filter_tag) }}">
+            <i class="blue comment icon"></i> ความคิดเห็น (มากที่สุด)
+          </a>
+          <a class="item" href="{{ url_for('dashboard.index', sorted_by='least_comment', filter_tag=filter_tag) }}">
+            <i class="red comment icon"></i> ความคิดเห็น (น้อยที่สุด)
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="ui dropdown basic black floating labeled icon button right floated" style="background-color: white;">
       <i class="filter icon"></i>
       <span class="text">
         {% if request.args.get('filter_tag') %}
@@ -43,12 +100,12 @@
         </div>
         <div class="scrolling menu">
           {% if filter_tag %}
-            <a class="item" href="{{ url_for('dashboard.index') }}">
-              ล้างการกรอง
+            <a class="item" href="{{ url_for('dashboard.index', sorted_by=sorted_by) }}">
+              ลบการกรอง
             </a>
           {% endif %}
           {% for tag in tag_choices %}
-          <a class="item" href="{{ url_for('dashboard.index', filter_tag=tag) }}">
+          <a class="item" href="{{ url_for('dashboard.index', filter_tag=tag, sorted_by=sorted_by) }}">
             <div class="ui empty circular label
                 {{ 'olive' if tag == 'ปัญหาชีวิต' }} {{ 'pink' if tag == 'ความรัก' }} {{ 'yellow' if tag == 'อาหาร' }}
                 {{ 'brown' if tag == 'สัตว์' }} {{ 'brown' if tag == 'สัตว์เลี้ยง' }} {{ 'orange' if tag == 'ยานพาหนะ' }}
