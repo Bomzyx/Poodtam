@@ -34,7 +34,7 @@
         {{ blog.get_past_time() }}
       </div>
     </div>
-    <div class="content" style="cursor: pointer;" onclick="window.location.href=`{{ url_for('blogs.view', blog_id=blog.id) }}`">
+    <div class="content">
        <div class="ui header">
         {{ blog.subject }}
         {% if blog.owner == current_user %}
